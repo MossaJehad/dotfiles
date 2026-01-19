@@ -125,3 +125,36 @@ if [ -x "$HOME/dotfiles/scripts/git_push.sh" ]; then
   alias push="$HOME/dotfiles/scripts/git_push.sh"
 fi
 
+########################################
+# FILES MAKE HELPERS
+########################################
+
+ffclean() {
+  shopt -s nullglob
+  for dir in ex*; do
+    if [ -f "$dir/Makefile" ]; then
+      printf "🧹 %-6s ... " "$dir"
+      if make -C "$dir" fclean >/dev/null; then
+        echo "✅"
+      else
+        echo "❌"
+      fi
+    fi
+  done
+  shopt -u nullglob
+}
+
+fmake() {
+  shopt -s nullglob
+  for dir in ex*; do
+    if [ -f "$dir/Makefile" ]; then
+      printf "🔨 %-6s ... " "$dir"
+      if make -C "$dir" >/dev/null; then
+        echo "✅"
+      else
+        echo "❌"
+      fi
+    fi
+  done
+  shopt -u nullglob
+}
